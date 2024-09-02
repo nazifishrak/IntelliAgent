@@ -11,6 +11,44 @@ export default function Component() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
+    const handleTranscribe = useCallback(async () => {
+      setIsLoading(true);
+      setError('');
+      setTranscript('');
+  
+      try {
+          const response = await fetch('/api/transcript', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ videoUrl }),
+          });
+  
+          const rawResponse = await response.text();
+          console.log('Raw API response:', rawResponse);
+  
+          let data;
+          try {
+              data = JSON.parse(rawResponse);
+          } catch (parseError) {
+              console.error('Error parsing JSON:', parseError);
+              throw new Error('Received invalid response from server');
+          }
+  
+          if (!response.ok) {
+              throw new Error(data.error || 'Failed to transcribe the video. Please check the URL and try again.');
+          }
+  
+          const decodedTranscript = he.decode(data.transcript);
+          setTranscript(decodedTranscript);
+      } catch (err) {
+          setError(err.message || 'An error occurred while transcribing the video.');
+      } finally {
+          setIsLoading(false);
+      }
+  }, [videoUrl]);
+
     return (<>
 
 <div className="bg-gradient-to-r from-[#0A246A] to-[#3A6EA5] text-white p-1 flex justify-between items-center">
@@ -35,6 +73,24 @@ export default function Component() {
             <button className="focus:outline-none"><X size={16} /></button>
         </div>
     </div>
+    <div className="flex-grow p-4 space-y-4 bg-[#ECE9D8] overflow-auto">
+    <div className="flex space-x-2">
+        <input
+            type="url"
+            placeholder="Enter YouTube video URL"
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            className="flex-grow p-1 border border-gray-400 bg-white"
+        />
+        <button
+            onClick={handleTranscribe}
+            disabled={isLoading || !videoUrl}
+            className="px-4 py-1 bg-[#ECE9D8] border-2 border-gray-400 active:border-[#0A246A] disabled:opacity-50"
+        >
+            {isLoading ? <Loader2 className="animate-spin" /> : 'Transcribe'}
+        </button>
+    </div>
+</div>
 </div>
 
 
