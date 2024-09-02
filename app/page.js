@@ -12,8 +12,15 @@ export default function Component() {
     const [error, setError] = useState('');
 
     return (
-        <div className="flex flex-col h-screen bg-[#ECE9D8] font-sans">
-            {/* Taskbar */}
-        </div>
+        // Add this inside the return statement, replacing the previous content
+
+<div className="bg-gradient-to-r from-[#0A246A] to-[#3A6EA5] text-white p-1 flex justify-between items-center">
+    <div className="flex items-center">
+        <div className="bg-green-500 rounded-full w-3 h-3 mr-2"></div>
+        <span className="font-bold">Start</span>
+    </div>
+    <span className="text-xs">4:20 PM</span>
+</div>
+
     );
 }
