@@ -86,12 +86,12 @@ export default function Component() {
                           placeholder="Enter YouTube video URL"
                           value={videoUrl}
                           onChange={(e) => setVideoUrl(e.target.value)}
-                          className="flex-grow p-1 border border-gray-400 bg-white"
+                          className="flex-grow p-1 border border-gray-400 bg-white text-black"
                       />
                       <button
                           onClick={handleTranscribe}
                           disabled={isLoading || !videoUrl}
-                          className="px-4 py-1 bg-[#ECE9D8] border-2 border-gray-400 active:border-[#0A246A] disabled:opacity-50"
+                          className="px-4  py-1 bg-gradient-to-r from-[#0A246A] to-[#3A6EA5] border-2 border-gray-400 active:border-[#0A246A] disabled:opacity-50"
                       >
                           {isLoading ? <Loader2 className="animate-spin" /> : 'Transcribe'}
                       </button>
@@ -103,11 +103,11 @@ export default function Component() {
                           <textarea
                               value={transcript}
                               readOnly
-                              className="w-full h-64 p-2 resize-none border border-gray-400 bg-white"
+                              className="w-full h-64 p-2 resize-none border border-gray-400 bg-white text-black"
                           />
                           <button
                               onClick={handleCopyTranscript}
-                              className="w-full px-4 py-1 bg-[#ECE9D8] border-2 border-gray-400 active:border-[#0A246A] flex items-center justify-center"
+                              className="w-full px-4 py-1  bg-[#0A246A] border-2 border-gray-400 active:border-[#0A246A] flex items-center justify-center"
                           >
                               <ClipboardCopy className="mr-2 h-4 w-4" />
                               Copy Transcript
